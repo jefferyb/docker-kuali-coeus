@@ -25,8 +25,10 @@ This repository contains **Dockerfile** of [Kuali Coeus](https://github.com/kual
 #### Run `kuali_coeus`
 
     docker run -d --name kuali_coeus -h EXAMPLE.COM -p 8080:8080 -p 43306:3306 jefferyb/kuali_coeus
+
 OR using IP Address
-    docker run -d --name kuali_coeus -h 192.168.1.3 -p 8080:8080 -p 43306:3306 jefferyb/kuali_coeus
+
+		docker run -d --name kuali_coeus -h 192.168.1.3 -p 8080:8080 -p 43306:3306 jefferyb/kuali_coeus
 
 Where EXAMPLE.COM or 192.168.1.3 is the hostname or ipaddress where you want to access your application
 
