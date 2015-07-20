@@ -1,4 +1,4 @@
-## Kuali Coeus MySQL Dockerfile
+## Kuali Coeus Dockerfile
 
 This repository contains **Dockerfile** of [Kuali Coeus](https://github.com/kuali/kc)'s [automated build](https://registry.hub.docker.com/u/jefferyb/kuali_coeus/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
