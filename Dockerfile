@@ -60,7 +60,7 @@ RUN \
 	mysql -u root -pChang3m3t0an0th3r < /setup_files/configure_mysql.sql && \
 	service mysql restart && \
 	cd setup_files; ./install_kuali_db.sh && \
-	echo "Done!!!"
+	echo "Done Setting up MySQL!!!"
 
 # Install Tomcat
 RUN \
@@ -88,11 +88,10 @@ RUN \
 	wget ${KC_PROJECT_RICE_XML} -O ${TOMCAT_LOCATION}/webapps/ROOT/xml_files/rice-xml-$(echo ${KC_VERSION} | sed 's/coeus-//').zip && \
 	wget ${KC_PROJECT_COEUS_XML} -O ${TOMCAT_LOCATION}/webapps/ROOT/xml_files/coeus-xml-$(echo ${KC_VERSION} | sed 's/coeus-//').zip && \
 	rm -fr /setup_files && \
-	echo "Done!!!"
+	echo "Done Setting Tomcat!!!"
 
 # Expose ports.
 EXPOSE 3306 8080
 
 # Define default command.
-# CMD ["mysqld"]
-CMD export TERM=vt100; sed -i "s/localhost/$(hostname -f)/" ${KC_CONFIG_XML_LOC}/kc-config.xml; sed -i "s/Kuali-Coeus-Version/${KC_VERSION}/" ${KC_CONFIG_XML_LOC}/kc-config.xml; service mysql restart; ${TOMCAT_LOCATION}/bin/startup.sh; tailf ${TOMCAT_LOCATION}/logs/catalina.out
+CMD export TERM=vt100; sed -i "3 s/localhost/$(hostname -f)/" ${KC_CONFIG_XML_LOC}/kc-config.xml; sed -i "s/Kuali-Coeus-Version/${KC_VERSION}/" ${KC_CONFIG_XML_LOC}/kc-config.xml; service mysql restart; ${TOMCAT_LOCATION}/bin/startup.sh; tailf ${TOMCAT_LOCATION}/logs/catalina.out
