@@ -1,0 +1,14 @@
+<config>
+	<param name="application.http.scheme">http</param>
+	<param name="application.host">localhost</param>
+	<param name="http.port">8080</param>
+	<param name="build.version">Kuali-Coeus-Version</param>
+	<param name="app.context.name">${app.code}-${environment}</param>
+
+
+	<!-- KC Client DB -->
+	<param name="datasource.url">jdbc:mysql://localhost:3306/kualicoeusdb</param>
+	<param name="datasource.username">kcusername</param>
+	<param name="datasource.password">kcpassword</param>
+	<param name="datasource.ojb.platform">MySQL</param>
+</config>

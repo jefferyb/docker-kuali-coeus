@@ -1,0 +1,12 @@
+#!/bin/bash
+
+FileName=UPGRADE_ERRORS.`eval date +%Y%m%d"."%H.%M`
+
+for f in *.log;
+do 
+	echo >> $FileName
+	echo "Processing $f file.."
+	echo [ $f ] >> $FileName
+	cat $f | grep -B5 -A3 ERROR >> $FileName
+done
+
