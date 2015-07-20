@@ -39,12 +39,12 @@ function exec_sql_scripts() {
 			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_kc_upgrade.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_KC_UPGRADE.log 2>&1
 		fi
 		# INSTALL THE DEMO FILES
-		if [ -f ${version}_mysql_rice_demo.sql ]; then
-			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_rice_demo.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_RICE_DEMO.log 2>&1
-		fi
-		if [ -f ${version}_mysql_kc_demo.sql ]; then
-			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_kc_demo.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_KC_DEMO.log 2>&1
-		fi
+		# 		if [ -f ${version}_mysql_rice_demo.sql ]; then
+		# 			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_rice_demo.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_RICE_DEMO.log 2>&1
+		# 		fi
+		# 		if [ -f ${version}_mysql_kc_demo.sql ]; then
+		# 			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_kc_demo.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_KC_DEMO.log 2>&1
+		# 		fi
 	done
 	# THIS IS TO FIX THE "JASPER_REPORTS_ENABLED" ISSUE BECAUSE THIS SCRIPT DIDN'T RUN IN VERSION 1506
 	if [ $(mysql -N -s -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} -D ${KC_DB_NAME} -e "select VAL from KRCR_PARM_T where PARM_NM='JASPER_REPORTS_ENABLED';" | wc -l) -eq 0 ]; then
