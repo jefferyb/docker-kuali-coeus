@@ -11,14 +11,8 @@
 #
 
 # Pull base image.
-FROM ubuntu:14.04.2
+FROM ubuntu:14.04
 MAINTAINER Jeffery Bagirimvano <jeffery.rukundo@gmail.com>
-
-# Settings to change every release
-ENV KC_VERSION="coeus-1506.69"
-ENV KC_WAR_FILE_LINK="https://goo.gl/RjyrIw"
-ENV KC_PROJECT_RICE_XML="https://goo.gl/8hnZYq"
-ENV KC_PROJECT_COEUS_XML="https://goo.gl/nN3jNy"
 
 # MySQL Settings:
 RUN mkdir -p /setup_files
@@ -26,10 +20,6 @@ ADD setup_files /setup_files
 ENV HOST_NAME kuali_coeus
 
 # Tomcat Settings:
-ENV TOMCAT_MAJOR 8
-ENV TOMCAT_VERSION 8.0.24
-ENV TOMCAT_LINK https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz
-ENV TOMCAT_FILE="apache-tomcat-${TOMCAT_VERSION}.tar.gz"
 ENV TOMCAT_LOCATION="/opt/apache-tomcat/tomcat8"
 ENV KC_CONFIG_XML_LOC="/opt/kuali/main/dev"
 
@@ -45,7 +35,7 @@ ENV SPRING_INSTRUMENTATION_TOMCAT_LINK="http://central.maven.org/maven2/org/spri
 # Install MySQL.
 RUN \
   apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server git && \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-server-5.5 git && \
   echo $(head -1 /etc/hosts | cut -f1) ${HOST_NAME} >> /etc/hosts && \
   sed -i 's/^\(bind-address\s.*\)/# \1/' /etc/mysql/my.cnf && \
   sed -i 's/^\(log_error\s.*\)/# \1/' /etc/mysql/my.cnf && \
@@ -64,6 +54,13 @@ RUN \
 
 # Install Tomcat
 RUN \
+
+	apt-get install -y curl && \
+	TOMCAT_MAJOR="8" && \
+	TOMCAT_VERSION="$(curl -s https://tomcat.apache.org/download-80.cgi | grep -A 7 '</select><input type="submit" value="Change">' | grep '<h3 id="' | sed 's/<h3 id="//' | sed 's/">.*//')" && \
+	TOMCAT_LINK="https://www.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz" && \
+	TOMCAT_FILE="apache-tomcat-${TOMCAT_VERSION}.tar.gz" && \
+
 	apt-get install -y software-properties-common && \
 	add-apt-repository -y ppa:openjdk-r/ppa && \
 	apt-get update && \
@@ -83,6 +80,12 @@ RUN \
 	sed -i 's/<Context>/<Context>\n\n    <!-- BEGIN - For Kuali Coeus -->/' ${TOMCAT_LOCATION}/conf/context.xml && \
 	mkdir -p ${KC_CONFIG_XML_LOC} && \
 	cp -f /setup_files/kc-config.xml ${KC_CONFIG_XML_LOC}/kc-config.xml && \
+
+	KC_VERSION="$(curl -s https://raw.githubusercontent.com/kuali/kc/master/pom.xml | egrep -m 1 "<version>" | sed 's/<version>//' | sed 's/\..*//' | awk '{print $1}')" && \
+	KC_WAR_FILE_LINK="http://www.kuali.erafiki.com/${KC_VERSION}/mysql/kc-dev.war" && \
+	KC_PROJECT_RICE_XML="http://www.kuali.erafiki.com/${KC_VERSION}/xml_files/rice-xml-${KC_VERSION}.zip" && \
+	KC_PROJECT_COEUS_XML="http://www.kuali.erafiki.com/${KC_VERSION}/xml_files/coeus-xml-${KC_VERSION}.zip" && \
+
 	wget ${KC_WAR_FILE_LINK} -O ${TOMCAT_LOCATION}/webapps/kc-dev.war && \
 	mkdir -p ${TOMCAT_LOCATION}/webapps/ROOT/xml_files && \
 	wget ${KC_PROJECT_RICE_XML} -O ${TOMCAT_LOCATION}/webapps/ROOT/xml_files/rice-xml-$(echo ${KC_VERSION} | sed 's/coeus-//').zip && \
@@ -94,4 +97,4 @@ RUN \
 EXPOSE 3306 8080
 
 # Define default command.
-CMD export TERM=vt100; sed -i "3 s/localhost/$(hostname -f)/" ${KC_CONFIG_XML_LOC}/kc-config.xml; sed -i "s/Kuali-Coeus-Version/${KC_VERSION}/" ${KC_CONFIG_XML_LOC}/kc-config.xml; service mysql restart; ${TOMCAT_LOCATION}/bin/startup.sh; tailf ${TOMCAT_LOCATION}/logs/catalina.out
+CMD export TERM=vt100; sed -i "3 s/localhost/$(hostname -f)/" ${KC_CONFIG_XML_LOC}/kc-config.xml; sed -i "s/Kuali-Coeus-Version/KualiCo ${KC_VERSION}/" ${KC_CONFIG_XML_LOC}/kc-config.xml; service mysql restart; ${TOMCAT_LOCATION}/bin/startup.sh; tailf ${TOMCAT_LOCATION}/logs/catalina.out

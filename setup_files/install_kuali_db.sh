@@ -29,9 +29,6 @@ function exec_sql_scripts() {
 		if [ -f ${version}_mysql_rice_server_upgrade.sql ]; then
 			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_rice_server_upgrade.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_RICE_SERVER_UPGRADE.log 2>&1
 		fi
-		if [ -f ${version}_mysql_rice_client_upgrade.sql ]; then
-			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_rice_client_upgrade.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_RICE_CLIENT_UPGRADE.log 2>&1
-		fi
 		if [ -f ${version}_mysql_kc_rice_server_upgrade.sql ]; then
 			mysql -u${KC_DB_USERNAME} -p${KC_DB_PASSWORD} ${KC_DB_NAME} < ${version}_mysql_kc_rice_server_upgrade.sql > ${CURRENT_WORKING_DIR}/SQL_LOGS/${version}_MYSQL_KC_RICE_SERVER_UPGRADE.log 2>&1
 		fi
