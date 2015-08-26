@@ -16,7 +16,7 @@ This repository contains **Dockerfile** of [Kuali Coeus](https://github.com/kual
 
 (alternatively, you can build an image from Dockerfile: 
 
-	docker build -t="jefferyb/kuali_coeus" github.com/jefferyb/https://github.com/jefferyb/docker-kuali-coeus 
+	docker build -t="jefferyb/kuali_coeus" https://github.com/jefferyb/docker-kuali-coeus.git 
 
 )
 
