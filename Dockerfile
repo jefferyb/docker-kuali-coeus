@@ -62,10 +62,10 @@ RUN \
 	TOMCAT_FILE="apache-tomcat-${TOMCAT_VERSION}.tar.gz" && \
 
 	apt-get install -y software-properties-common && \
-	add-apt-repository -y ppa:openjdk-r/ppa && \
+	add-apt-repository -y ppa:webupd8team/java && \
+  echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
 	apt-get update && \
-	apt-get install -y wget zip unzip openjdk-8-jdk tar graphviz && \
-	apt-get remove -y openjdk-7-jre-headless && \
+	apt-get install -y wget zip unzip oracle-java8-installer tar graphviz && \
 	cd /setup_files  && \
 	wget ${TOMCAT_LINK} && \
 	mkdir -p ${TOMCAT_LOCATION} && \
