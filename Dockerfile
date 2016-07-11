@@ -45,7 +45,7 @@ RUN \
   bash /tmp/config && \
   rm -f /tmp/config && \
 	mysqladmin -u root password Chang3m3t0an0th3r && \
-	mysqladmin -u root -h ${HOST_NAME} password Chang3m3t0an0th3r && \
+	mysqladmin -u root -pChang3m3t0an0th3r -h ${HOST_NAME} password Chang3m3t0an0th3r && \
 	cp -f /setup_files/my.cnf /etc/mysql/my.cnf && \
 	mysql -u root -pChang3m3t0an0th3r < /setup_files/configure_mysql.sql && \
 	service mysql restart && \
