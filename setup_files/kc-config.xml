@@ -1,14 +1,14 @@
 <config>
 	<param name="application.http.scheme">http</param>
-	<param name="application.host">localhost</param>
-	<param name="http.port">8080</param>
-	<param name="build.version">Kuali-Coeus-Version</param>
+	<param name="application.host">KUALI_APP_URL</param>
+	<param name="http.port">KUALI_APP_URL_PORT</param>
+	<param name="build.version">KUALI_COEUS_VERSION</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
 
 
 	<!-- KC Client DB -->
-	<param name="datasource.url">jdbc:mysql://localhost:3306/kualicoeusdb</param>
-	<param name="datasource.username">kcusername</param>
-	<param name="datasource.password">kcpassword</param>
+	<param name="datasource.url">jdbc:mysql://MYSQL_HOSTNAME:MYSQL_PORT/MYSQL_DATABASE</param>
+	<param name="datasource.username">MYSQL_USER</param>
+	<param name="datasource.password">MYSQL_PASSWORD</param>
 	<param name="datasource.ojb.platform">MySQL</param>
 </config>

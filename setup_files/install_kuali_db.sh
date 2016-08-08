@@ -10,18 +10,11 @@ KC_DB_NAME="kualicoeusdb"
 KC_PROJECT_LINK="https://github.com/kuali/kc.git"
 MYSQL_SQL_FILES_FOLDER="${CURRENT_WORKING_DIR}/kc/coeus-db/coeus-db-sql/src/main/resources/co/kuali/coeus/data/migration/sql/mysql"
 
-# FUNCTIONS
-function fix_some_sql_database_scripts {
-	sed -i -e '/---------------/d' ${MYSQL_SQL_FILES_FOLDER}/kc/bootstrap/V602_010__RESKC-204.sql
-	
-}
-
 function exec_sql_scripts() {
 	echo
 	git clone ${KC_PROJECT_LINK}
-	fix_some_sql_database_scripts
 	cd ${MYSQL_SQL_FILES_FOLDER}
-	INSTALL_SQL_VERSION=( $(ls -v *.sql | grep -v INSTALL_TEMPLATE | sed 's/_.*//g' | uniq ) )
+	INSTALL_SQL_VERSION=( $(ls -v *.sql | grep -v INSTALL_TEMPLATE | sed 's/_.*//g' | uniq | sort -n ) )
 	for version in ${INSTALL_SQL_VERSION[@]:${1}}
 	do
 		# INSTALL THE MYSQL FILES
@@ -81,6 +74,5 @@ function setup_kuali_database {
 	check_sql_errors
 }
 
-# Run the Kuali SQL files 
+# Run the Kuali SQL files
 setup_kuali_database
-

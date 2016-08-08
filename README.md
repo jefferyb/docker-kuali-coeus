@@ -1,49 +1,52 @@
-## Kuali Coeus Dockerfile
+# Kuali Coeus Tomcat Dockerfile
 
-This repository contains **Dockerfile** of [Kuali Coeus](https://github.com/kuali/kc)'s [automated build](https://registry.hub.docker.com/u/jefferyb/kuali_coeus/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
+This repository contains the **Dockerfile** of an [ automated build of a Kuali Coeus Bundled image ](https://registry.hub.docker.com/u/jefferyb/kuali_coeus/) published to the public [Docker Hub Registry](https://registry.hub.docker.com/).
 
-### Base Docker Image
+# How to Use the Kuali Coeus Bundled Images
 
-* [ubuntu](https://registry.hub.docker.com/_/ubuntu)
+## Start a Kuali Coeus Bundled Instance
 
-### Installation
+To start a Kuali Coeus Bundled instance as follows:
 
-1. Install [Docker](https://www.docker.com/).
+docker run  -d \
+  --name kuali-coeus-bundled \
+  -e KUALI_APP_URL=EXAMPLE.COM \
+  -e KUALI_APP_URL_PORT=80 \
+  -p 80:8080 \
+  jefferyb/kuali_coeus
 
-2. Download [automated build](https://registry.hub.docker.com/u/jefferyb/kuali_coeus/) from public [Docker Hub Registry](https://registry.hub.docker.com/): 
+and then access it at http://EXAMPLE.COM/kc-dev
 
-		docker pull jefferyb/kuali_coeus
+**NOTE:** This image needs at least 2 environment set (unless you're running it on localhost on port 8080):
+  * `-e KUALI_APP_URL=EXAMPLE.COM` Where EXAMPLE.COM is the fqdn or IP address where you want to access it
+  * `-e KUALI_APP_URL_PORT=80` KUALI_APP_URL_PORT needs to be equal to the PRIVATE_PORT number, the port set using -p.
 
-(alternatively, you can build an image from Dockerfile: 
+## Build a Kuali Coeus Bundled Image yourself
 
-	docker build -t="jefferyb/kuali_coeus" https://github.com/jefferyb/docker-kuali-coeus.git 
+You can build an image from the docker-compose.yml file:
 
-)
+    docker-compose build
 
+Alternatively, you can build an image from the Dockerfile:
 
-### Usage
+    docker build  -t jefferyb/kuali_coeus https://github.com/jefferyb/docker-kuali-coeus.git
 
-#### Run `kuali_coeus`
+## Watch the logs
 
-    docker run -d --name kuali_coeus -h EXAMPLE.COM -p 8080:8080 -p 43306:3306 jefferyb/kuali_coeus
+You can check the logs using:
 
-OR using IP Address
+    docker logs -f kuali-coeus-bundled
 
-		docker run -d --name kuali_coeus -h 192.168.1.3 -p 8080:8080 -p 43306:3306 jefferyb/kuali_coeus
+## Access Kuali Coeus Application
 
-Where EXAMPLE.COM or 192.168.1.3 is the hostname or ipaddress where you want to access your application
-
-#### Access your application
-
-To access your application, do:
+To access the Kuali Coeus instance, go to:
 
     http://EXAMPLE.COM:8080/kc-dev
-	OR 
-    http://192.168.1.3:8080/kc-dev
 
-Depending what you used or set your -h when you started your docker
+Where EXAMPLE.COM is whatever you set `-e KUALI_APP_URL` to,
+and port number is whatever you set `-e KUALI_APP_URL_PORT` to.
 
-#### Download the XML Files to ingest
+## Download the XML Files to ingest
 
 To download the Kuali Coeus XML files, go to:
 
@@ -53,22 +56,51 @@ To download the Kuali Coeus XML files, go to:
     For coeus-xml
       http://EXAMPLE.COM:8080/xml_files/coeus-xml.${Kuali-Coeus-Version}.zip
 
-Where ${Kuali-Coeus-Version} is the version number (without the "coeus-" part) on the http://EXAMPLE.COM:8080/kc-dev login page.
+Where ${Kuali-Coeus-Version} is the version number on the http://EXAMPLE.COM:8080/kc-dev login page.
 
 For example:
-if the current version on the login page says: coeus-1506.69 MySQL
-then to get the rice-xml and coeus-xml files, your hostname or ip address is [ EXAMPLE.COM || 192.168.1.3 ], then the links would be:
+if the current version on the login page says: KualiCo 1607 MySQL
+then to get the rice-xml and coeus-xml files, the links would be:
 
-      http://EXAMPLE.COM:8080/xml_files/rice-xml.1506.69.zip
-      http://EXAMPLE.COM:8080/xml_files/coeus-xml.1506.69.zip
-	OR 
-      http://192.168.1.3:8080/xml_files/rice-xml.1506.69.zip
-      http://192.168.1.3:8080/xml_files/coeus-xml.1506.69.zip
+    http://EXAMPLE.COM:8080/xml_files/rice-xml.1607.zip
+    http://EXAMPLE.COM:8080/xml_files/coeus-xml.1607.zip
 
+## Container Shell Access
 
-#### Connect to Docker container
+The `docker exec` command allows you to run commands inside a Docker container. The following command line will give you a bash shell inside your Kuali Coeus Bundled container:
 
-To get into the docker image, do:
+    docker exec -it kuali-coeus-bundled bash
 
-    docker exec -it kuali_coeus bash
+# Environment Variables
 
+When you start/build the Kuali Coeus Bundled image, you can adjust the configuration of the Kuali Coeus Bundled instance by passing one or more environment variables on the `docker run` command line or `Dockerfile/docker-compose.yml` file.
+
+Most of the variables listed below are optional, but at least `KUALI_APP_URL`, `KUALI_APP_URL_PORT` need to be there to get started (unless you're running it on localhost on port 8080)...
+
+## `KUALI_APP_URL`
+The fqdn or IP address where you want to access your application
+Default: KUALI_APP_URL="localhost"
+
+## `KUALI_APP_URL_PORT`
+The port number where you want to access your application
+Default: KUALI_APP_URL_PORT="8080"
+
+## `MYSQL_HOSTNAME`
+The hostname of your MySQL instance. If you're linking dockers, then it will be the container name of your database
+Default: MYSQL_HOSTNAME="kuali-coeus-database"
+
+## `MYSQL_PORT`
+The MySQL port number
+Default: MYSQL_PORT="3306"
+
+## `MYSQL_USER`
+The username to use.
+Default: MYSQL_USER="kcusername"
+
+## `MYSQL_PASSWORD`
+The password for the username.
+Default: MYSQL_PASSWORD="kcpassword"
+
+## `MYSQL_DATABASE`
+The name of the database.
+Default: MYSQL_DATABASE="kualicoeusdb"
