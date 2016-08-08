@@ -1,13 +1,13 @@
 #
-# Kuali Coeus on MySQL Server
+# Kuali Coeus Bundled on MySQL Server
 #
-# https://github.com/jefferyb/docker-mysql-kuali-coeus
+# https://github.com/jefferyb/docker-kuali-coeus
 #
 # To Build:
 #    docker build -t jefferyb/kuali_coeus .
 #
 # To Run:
-#  docker run  -d --name kuali-coeus-bundled -e KUALI_APP_URL=EXAMPLE.COM -e KUALI_APP_URL_PORT=80 -p 80:8080 jefferyb/kuali_coeus
+#  docker run -d --name kuali-coeus-bundled -e KUALI_APP_URL=EXAMPLE.COM -e KUALI_APP_URL_PORT=80 -p 80:8080 jefferyb/kuali_coeus
 #
 #  PS: KUALI_APP_URL_PORT needs to be equal to the PRIVATE_PORT number
 #
@@ -19,7 +19,7 @@ MAINTAINER Jeffery Bagirimvano <jeffery.rukundo@gmail.com>
 # MySQL Settings:
 RUN mkdir -p /setup_files
 ADD setup_files /setup_files
-ENV HOST_NAME="kuali_coeus"
+ENV HOST_NAME="kuali_coeus_bundled"
 
 # kc-config.xml Settings:
 ENV KUALI_APP_URL="localhost"
