@@ -8,12 +8,14 @@ This repository contains the **Dockerfile** of an [ automated build of a Kuali C
 
 To start a Kuali Coeus Bundled instance as follows:
 
+```
 docker run  -d \
   --name kuali-coeus-bundled \
   -e KUALI_APP_URL=EXAMPLE.COM \
   -e KUALI_APP_URL_PORT=80 \
   -p 80:8080 \
   jefferyb/kuali_coeus
+```
 
 and then access it at http://EXAMPLE.COM/kc-dev
 
