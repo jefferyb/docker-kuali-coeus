@@ -1,24 +1,32 @@
 # To run it, do:
-#   $ docker-compose up -d
+#   $ docker-compose pull && docker-compose up -d
+#
+# To upgrade, do:
+#   $ docker-compose pull && docker-compose stop && docker-compose rm -f && docker-compose up -d
+#
+# To check the logs, do:
+#   $ docker-compose logs -f
+#
+### </ Jeffery Bagirimvano - jeffery.rukundo@gmail.com >
 
 version: '2'
 
 services:
   kuali-coeus:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    ####### Uncomment below if you want to build it
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     ports:
       - 80:8080
-      # If you want to connect to MySQL
+      ####### If you want to connect to MySQL
       # - 3306:3306
-    ### Environment vars for kc-config.xml
+    ####### Environment vars for kc-config.xml
     environment:
-      - "KUALI_APP_URL=104.197.153.122" # Where you want to access the kuali application. http://
+      - "KUALI_APP_URL=localhost"
       - "KUALI_APP_URL_PORT=80"
-      - "MYSQL_HOSTNAME=localhost"
       - "TZ=America/Chicago"
     image:          jefferyb/kuali_coeus
-    container_name: kuali-coeus-application
-    hostname:       kuali-coeus-application
+    container_name: kuali-coeus-bundled
+    hostname:       kuali_coeus_bundled
     # restart:        always
