@@ -1,5 +1,4 @@
-[![](https://images.microbadger.com/badges/version/jefferyb/kuali_coeus.svg)](http://microbadger.com/images/jefferyb/kuali_coeus "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/jefferyb/kuali_coeus.svg)](http://microbadger.com/images/jefferyb/kuali_coeus "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/jefferyb/kuali_coeus.svg)](http://microbadger.com/images/jefferyb/kuali_coeus "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/jefferyb/kuali_coeus.svg)](http://microbadger.com/images/jefferyb/kuali_coeus "Get your own image badge on microbadger.com")
 
 ## jefferyb/kuali_coeus
 Kuali Coeus simplifies the grant administration process from proposals through award & compliance. It allows institutions to maximize funding and make more informed decisions.
